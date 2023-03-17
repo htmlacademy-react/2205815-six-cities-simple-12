@@ -1,5 +1,12 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-function PropertyScreen(): JSX.Element {
+
+import { Offer } from '../../types/offers';
+
+type PropertyScreenProps = {
+  offer: Offer;
+}
+
+function PropertyScreen({offer}: PropertyScreenProps): JSX.Element {
   return (
     <div className="page">
       <div style={{ display: 'none' }}>
@@ -38,24 +45,8 @@ function PropertyScreen(): JSX.Element {
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/room.jpg" alt="Photo studio" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/studio-01.jpg" alt="Photo studio" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-            </div>
+
+
           </div>
         </div>
         <div className="property__container container">

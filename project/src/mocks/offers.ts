@@ -21,7 +21,10 @@ const offers = [
     },
     'id': 1,
     'images': [
-      'img/1.png'
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+      'img/studio-01.jpg'
     ],
     'isPremium': false,
     'location': {
