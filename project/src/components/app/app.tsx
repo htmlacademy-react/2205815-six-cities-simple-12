@@ -5,14 +5,16 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import Offer from '../offer/offer';
 import { Offers } from '../../types/offers';
+import { Reviews } from '../../types/reviews';
 
 type AppScreenProops = {
   placesCount: number;
   offers: Offers;
+  reviews: Reviews;
 }
 
 
-function App({placesCount, offers}: AppScreenProops): JSX.Element {
+function App({placesCount, offers, reviews}: AppScreenProops): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -31,7 +33,7 @@ function App({placesCount, offers}: AppScreenProops): JSX.Element {
         />
         <Route
           path='property'
-          element={<PropertyScreen/>}
+          element={<PropertyScreen offer={offers[0]} reviews={reviews} />}
         />
         <Route
           path='*'
@@ -39,7 +41,7 @@ function App({placesCount, offers}: AppScreenProops): JSX.Element {
         />
         <Route
           path='offer/:id'
-          element={<Offer offers={offers} />}
+          element={<Offer offers={offers} reviews={reviews}/>}
         />
       </Routes>
     </BrowserRouter>

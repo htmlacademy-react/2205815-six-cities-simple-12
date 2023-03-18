@@ -1,14 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import { Offer } from '../../types/offers';
+
 
 type PlaceCardProps = {
   offer: Offer;
 }
 
 function PlaceCard({offer}: PlaceCardProps): JSX.Element {
+  const navigate = useNavigate();
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" id={String(offer.id)}>
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="/">
+        <a onClick = {() => navigate(`offer/${offer.id}`)} href={`offer/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
         </a>
       </div>
@@ -26,7 +29,7 @@ function PlaceCard({offer}: PlaceCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/">{offer.title}</a>
+          <a onClick = {() => navigate(`offer/${offer.id}`)} href={`offer/${offer.id}`}>{offer.title}</a>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

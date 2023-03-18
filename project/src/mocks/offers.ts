@@ -9,12 +9,16 @@ const offers = [
       },
       'name': 'Amsterdam'
     },
-    'description': 'Amsterdam 1.',
+    'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     'goods': [
-      'Heating'
+      'Heating',
+      'Washing machine',
+      'TV',
+      'Coffee machine',
+      'Kitchen'
     ],
     'host': {
-      'avatarUrl': 'img/1.png',
+      'avatarUrl': 'img/avatar-angelina.jpg',
       'id': 3,
       'isPro': true,
       'name': 'Angelina'
