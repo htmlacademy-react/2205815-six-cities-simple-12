@@ -1,5 +1,6 @@
 import { Offers } from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
+import { useState } from 'react';
 
 
 type OfferListProps = {
@@ -8,12 +9,18 @@ type OfferListProps = {
 
 
 function OfferList({offers}: OfferListProps): JSX.Element {
+  const [offerId, setActivOfferId] = useState({id: 0});
+
+  const setActiveOfferId = (id: number) => {
+    setActivOfferId({...offerId, id: id});
+  };
+
+
   return (
     <div
-      onMouseOver ={(evt) => console.log(evt.target?.id)}
       className="cities__places-list places__list tabs__content"
     >
-      {offers.map((offer) => <PlaceCard offer={offer} key={offer.id} />)}
+      {offers.map((offer) => <PlaceCard cb={setActiveOfferId} offer={offer} key={offer.id} />)}
     </div>
   );
 }
