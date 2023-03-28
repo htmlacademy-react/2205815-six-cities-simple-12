@@ -1,26 +1,18 @@
 import { Offers } from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
-import { useState } from 'react';
-
 
 type OfferListProps = {
     offers: Offers;
+    cb: (id: number) => void;
 }
 
 
-function OfferList({offers}: OfferListProps): JSX.Element {
-  const [offerId, setActivOfferId] = useState({id: 0});
-
-  const setActiveOfferId = (id: number) => {
-    setActivOfferId({...offerId, id: id});
-  };
-
-
+function OfferList({offers, cb}: OfferListProps): JSX.Element {
   return (
     <div
       className="cities__places-list places__list tabs__content"
     >
-      {offers.map((offer) => <PlaceCard cb={setActiveOfferId} offer={offer} key={offer.id} />)}
+      {offers.map((offer) => <PlaceCard cb={cb} offer={offer} key={offer.id} />)}
     </div>
   );
 }

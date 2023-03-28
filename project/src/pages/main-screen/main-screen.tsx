@@ -1,5 +1,7 @@
 import { Offers } from '../../types/offers';
 import OfferList from '../../components/offer-list/offer-list';
+import Map from '../../components/map/map';
+import { useState } from 'react';
 
 type MainScreenProps = {
   placesCount: number;
@@ -7,6 +9,12 @@ type MainScreenProps = {
 }
 
 function MainScreen({placesCount, offers}: MainScreenProps): JSX.Element {
+  const [offerId, setActivOfferId] = useState({id: 0});
+
+  const setActiveOfferId = (id: number) => {
+    setActivOfferId({...offerId, id: id});
+  };
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -66,10 +74,10 @@ function MainScreen({placesCount, offers}: MainScreenProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <OfferList offers={offers} />
+            <OfferList offers={offers} cb={setActiveOfferId} />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <Map offers={offers} city={offers[0]} activeOfferId={offerId.id}/>
           </div>
         </div>
       </div>
