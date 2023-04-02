@@ -4,17 +4,16 @@ import PropertyScreen from '../../pages/property-screen/property-screen';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import Offer from '../offer/offer';
-import { Offers } from '../../types/offers';
 import { Reviews } from '../../types/reviews';
+import { useAppSelector } from '../../hooks';
 
 type AppScreenProops = {
-  placesCount: number;
-  offers: Offers;
   reviews: Reviews;
 }
 
 
-function App({placesCount, offers, reviews}: AppScreenProops): JSX.Element {
+function App({reviews}: AppScreenProops): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
   return (
     <BrowserRouter>
       <Routes>
@@ -22,7 +21,6 @@ function App({placesCount, offers, reviews}: AppScreenProops): JSX.Element {
           path='/'
           element={
             <MainScreen
-              placesCount={placesCount}
               offers={offers}
             />
           }
