@@ -1,11 +1,15 @@
 import MainScreen from '../../pages/main-screen/main-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import Offer from '../offer/offer';
 import { Reviews } from '../../types/reviews';
 import { useAppSelector } from '../../hooks';
+import { AuthorizationStatus } from '../../const';
+import LoadingScreen from '../loading-screen/loading-screen';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 type AppScreenProops = {
   reviews: Reviews;
@@ -13,15 +17,26 @@ type AppScreenProops = {
 
 
 function App({reviews}: AppScreenProops): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOfferDataLoading = useAppSelector((state) => state.isOffersDataLoading);
   const offers = useAppSelector((state) => state.offers);
+  const sortOptions = useAppSelector((state) => state.sortOptions);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOfferDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path='/'
           element={
             <MainScreen
               offers={offers}
+              sortOptions={sortOptions}
             />
           }
         />
@@ -42,7 +57,7 @@ function App({reviews}: AppScreenProops): JSX.Element {
           element={<Offer offers={offers} reviews={reviews}/>}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

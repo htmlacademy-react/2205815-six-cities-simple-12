@@ -5,20 +5,22 @@ import { Offer } from '../../types/offers';
 type PlaceCardProps = {
   offer: Offer;
   cb: (id: number) => void;
+  isNearPlaceCard?: boolean;
 }
 
-function PlaceCard({offer, cb}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, cb, isNearPlaceCard}: PlaceCardProps): JSX.Element {
   const navigate = useNavigate();
   return (
     <article
       onMouseOver={() => cb(offer.id)}
 
-      className="cities__card place-card" id={String(offer.id)}
+      className={isNearPlaceCard ? 'near-places__card place-card' : 'cities__card place-card' } id={String(offer.id)}
     >
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a onClick = {(evt) => {
           evt.preventDefault();
-          navigate(`offer/${offer.id}`);}} href="#"
+          navigate(`/offer/${offer.id}`);
+        }} href="#"
         >
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
         </a>
@@ -40,7 +42,8 @@ function PlaceCard({offer, cb}: PlaceCardProps): JSX.Element {
           <a onClick = {(evt) => {
             evt.preventDefault();
             navigate(`offer/${offer.id}`);}} href="#"
-          >{offer.title}
+          >
+            {offer.title}
           </a>
         </h2>
         <p className="place-card__type">{offer.type}</p>
