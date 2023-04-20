@@ -7,9 +7,11 @@ type PropertDescriptionProps = {
 function PropertDescription({offer}: PropertDescriptionProps): JSX.Element {
   return (
     <>
+      {offer.isPremium &&
       <div className="property__mark">
-        <span>{offer.isPremium ? 'Premium' : ''}</span>
-      </div>
+        <span>Premium</span>
+      </div>}
+
       <div className="property__name-wrapper">
         <h1 className="property__name">
           {offer.title}

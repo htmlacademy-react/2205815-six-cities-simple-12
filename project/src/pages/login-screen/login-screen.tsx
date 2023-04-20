@@ -5,11 +5,9 @@ import {AuthData} from '../../types/auth-data';
 
 
 function LoginScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const dispatch = useAppDispatch();
-
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
   };
@@ -78,6 +76,7 @@ function LoginScreen(): JSX.Element {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input
+                  minLength={2}
                   className="login__input form__input"
                   type="password"
                   name="password"
@@ -87,7 +86,6 @@ function LoginScreen(): JSX.Element {
                 />
               </div>
               <button
-
                 className="login__submit form__submit button"
                 type="submit"
               >

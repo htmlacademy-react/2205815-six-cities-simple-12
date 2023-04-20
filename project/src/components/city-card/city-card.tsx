@@ -1,6 +1,6 @@
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { cityChanger, offersChangerByCity } from '../../store/action';
+import { cityChanger } from '../../store/action';
 
 type CityCardProps = {
     city: string;
@@ -15,7 +15,6 @@ function CityCard({city}: CityCardProps ): JSX.Element {
       onClick={(evt) => {
         evt.preventDefault();
         dispatch(cityChanger({city: city}));
-        dispatch(offersChangerByCity());
       }}
     >
       {activeCity === city ?

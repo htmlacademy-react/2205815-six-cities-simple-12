@@ -53,15 +53,18 @@ function Map({city, offers, activeOfferId, isPropertyScreenMap}: MapProps): JSX.
             .addTo(map);
         }});
     }
-  }, [map, offers, activeOfferId]);
+  }, [map, offers, activeOfferId, currentCustomIcon, defaultCustomIcon]);
 
 
   return (
-
-    <section ref={mapRef} className={isPropertyScreenMap ? 'property__map map' : 'cities__map map'}>
-
+    <section
+      ref={mapRef}
+      className={isPropertyScreenMap ?
+        'property__map map'
+        :
+        'cities__map map'}
+    >
     </section>
-
   );
 }
 

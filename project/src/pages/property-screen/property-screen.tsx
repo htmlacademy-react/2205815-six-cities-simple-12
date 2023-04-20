@@ -4,20 +4,32 @@ import { Offer } from '../../types/offers';
 import PropertyImages from '../../components/property-image/property-images';
 import PropertDescription from '../../components/property-description/property-description';
 import PropertyHost from '../../components/property-host/property-host';
-import { Reviews } from '../../types/reviews';
 import PropertyReviews from '../../components/property-review/property-review';
 import CommentSubmitForm from '../../components/comment-submit-form/comment-submit-form';
 import Map from '../../components/map/map';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import OfferList from '../../components/offer-list/offer-list';
+import UserAuthCard from '../../components/user-auth-card/user-auth-card';
+import { fetchCommentsAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import { useEffect } from 'react';
+
 
 type PropertyScreenProps = {
   offer: Offer;
-  reviews: Reviews;
 }
 
-function PropertyScreen({offer, reviews}: PropertyScreenProps): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
+function PropertyScreen({offer}: PropertyScreenProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const comments = useAppSelector((state) => state.comments);
+  const authStatus = useAppSelector((state) => state.authorizationStatus);
+  const nerblyOffers = useAppSelector((state) => state.nearbyOffers);
+  const sortedOffers = [...comments].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 10);
+
+  useEffect(()=>{
+    dispatch(fetchCommentsAction(offer.id));
+    dispatch(fetchNearbyOffersAction(offer.id));
+  }, [dispatch, offer.id]);
+
   return (
     <div className="page">
       <div style={{ display: 'none' }}>
@@ -34,19 +46,7 @@ function PropertyScreen({offer, reviews}: PropertyScreenProps): JSX.Element {
               </a>
             </div>
             <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <div className="header__nav-profile">
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </div>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="/">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
+              <UserAuthCard />
             </nav>
           </div>
         </div>
@@ -56,7 +56,7 @@ function PropertyScreen({offer, reviews}: PropertyScreenProps): JSX.Element {
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            {offer.images.map((image) => <PropertyImages image={image} key={image}/>)}
+            {offer.images.slice(0, 6).map((image) => <PropertyImages image={image} key={image}/>)}
           </div>
         </div>
         <div className="property__container container">
@@ -64,21 +64,30 @@ function PropertyScreen({offer, reviews}: PropertyScreenProps): JSX.Element {
             <PropertDescription offer={offer}/>
             <PropertyHost offer={offer}/>
             <section className="property__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.slice(0, 10).length}</span></h2>
               <ul className="reviews__list">
-                {reviews.map((review) => <PropertyReviews review={review} key={review.id} />)}
+                {sortedOffers
+                  .map((comment) => <PropertyReviews comment={comment} key={comment.id} />)}
               </ul>
-              <CommentSubmitForm />
+              {authStatus === 'AUTH' ? <CommentSubmitForm /> : ''};
             </section>
           </div>
         </div>
-        <Map offers={offers} city={offers[0]} activeOfferId={offer.id} isPropertyScreenMap/>
+        <Map
+          offers={nerblyOffers.slice(0, 3).concat(offer)}
+          city={offer}
+          activeOfferId={offer.id}
+          isPropertyScreenMap
+        />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList offers={Array.from(offers.filter((item) => item.id !== offer.id))} cb={() => ''} isNearPlaceCard/>
-
+          <OfferList
+            offers={nerblyOffers.slice(0, 3)}
+            cb={() => ''}
+            isNearPlaceCard
+          />
         </section>
       </div>
     </div>

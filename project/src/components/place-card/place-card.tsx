@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { Offer } from '../../types/offers';
+import { useAppDispatch } from '../../hooks';
+import { fetchCommentsAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import { setActivOfferId } from '../../store/action';
 
 
 type PlaceCardProps = {
@@ -10,15 +13,22 @@ type PlaceCardProps = {
 
 function PlaceCard({offer, cb, isNearPlaceCard}: PlaceCardProps): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   return (
     <article
       onMouseOver={() => cb(offer.id)}
-
       className={isNearPlaceCard ? 'near-places__card place-card' : 'cities__card place-card' } id={String(offer.id)}
     >
+      {offer.isPremium ?
+        <div className="place-card__mark"><span>Premium</span></div>
+        :
+        ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a onClick = {(evt) => {
           evt.preventDefault();
+          dispatch(fetchNearbyOffersAction(offer.id));
+          dispatch(setActivOfferId(offer.id));
+          dispatch(fetchCommentsAction(offer.id));
           navigate(`/offer/${offer.id}`);
         }} href="#"
         >
