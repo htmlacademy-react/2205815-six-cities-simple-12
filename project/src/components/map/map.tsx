@@ -10,9 +10,10 @@ type MapProps = {
     offers: Offers;
     city: Offer;
     activeOfferId: number;
+    isPropertyScreenMap?: boolean;
 }
 
-function Map({city, offers, activeOfferId}: MapProps): JSX.Element {
+function Map({city, offers, activeOfferId, isPropertyScreenMap}: MapProps): JSX.Element {
   const offer = city;
   const mapRef = useRef(null);
   const map = useMap({mapRef, offer});
@@ -52,14 +53,18 @@ function Map({city, offers, activeOfferId}: MapProps): JSX.Element {
             .addTo(map);
         }});
     }
-  }, [map, offers, activeOfferId]);
+  }, [map, offers, activeOfferId, currentCustomIcon, defaultCustomIcon]);
 
 
   return (
-    <section ref={mapRef} className="cities__map map">
-
+    <section
+      ref={mapRef}
+      className={isPropertyScreenMap ?
+        'property__map map'
+        :
+        'cities__map map'}
+    >
     </section>
-
   );
 }
 

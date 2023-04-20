@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import offers from './mocks/offers';
-import reviews from './mocks/reviews';
+import {Provider} from 'react-redux';
+import {store} from './store';
+import ErrorMessage from './error-massage/error-message';
+import {checkAuthAction, fetchOfferAction} from './store/api-actions';
 
-
-const Setting = {
-  PlacesCount: 312,
-  offers: offers,
-  reviews: reviews
-} as const;
+store.dispatch(fetchOfferAction());
+store.dispatch(checkAuthAction());
 
 
 const root = ReactDOM.createRoot(
@@ -18,10 +16,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App
-      placesCount={Setting.PlacesCount}
-      offers={Setting.offers}
-      reviews={Setting.reviews}
-    />
+    <Provider store={store}>
+      <ErrorMessage />
+      <App />
+    </Provider>
   </React.StrictMode>,
 );

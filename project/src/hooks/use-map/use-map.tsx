@@ -15,13 +15,15 @@ function useMap({mapRef, offer}: useMapProps): Map | null {
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
+
       const instance = leaflet.map(mapRef.current, {
         center: {
           lat: offer.city.location.latitude,
           lng: offer.city.location.longitude,
         },
-        zoom: 10,
+        zoom: 13,
       });
+
       leaflet
         .tileLayer(
           'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
@@ -33,6 +35,8 @@ function useMap({mapRef, offer}: useMapProps): Map | null {
 
       setMap(instance);
       isRenderedRef.current = true;
+
+
     }
   }, [mapRef, offer, map]);
 
