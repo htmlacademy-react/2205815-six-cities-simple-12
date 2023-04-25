@@ -1,5 +1,5 @@
-import React, {useRef, useEffect} from 'react';
-import leaflet from 'leaflet';
+import React, {useRef, useEffect, useState} from 'react';
+import leaflet, { LayerGroup, Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/use-map/use-map';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../consts';
@@ -17,6 +17,7 @@ function Map({city, offers, activeOfferId, isPropertyScreenMap}: MapProps): JSX.
   const offer = city;
   const mapRef = useRef(null);
   const map = useMap({mapRef, offer});
+  const [cityCenter, setCityCenter] = useState(offer.city.name);
 
   const defaultCustomIcon = leaflet.icon({
     iconUrl: URL_MARKER_DEFAULT,
@@ -32,29 +33,39 @@ function Map({city, offers, activeOfferId, isPropertyScreenMap}: MapProps): JSX.
 
   useEffect(() => {
     if (map) {
-      offers.forEach((of) => {
-        if (of.id === activeOfferId) {
-          leaflet
-            .marker({
-              lat: of.location.latitude,
-              lng: of.location.longitude,
-            }, {
-              icon: currentCustomIcon,
-            })
-            .addTo(map);
-        } else {
-          leaflet
-            .marker({
-              lat: of.location.latitude,
-              lng: of.location.longitude,
-            }, {
-              icon: defaultCustomIcon,
-            })
-            .addTo(map);
-        }});
-    }
-  }, [map, offers, activeOfferId, currentCustomIcon, defaultCustomIcon]);
+      if (offer.city.name !== cityCenter) {
+        map.flyTo(
+          [
+            offer.city.location.latitude,
+            offer.city.location.longitude
+          ],
+          offer.city.location.zoom,
+          {
+            animate: true,
+            duration: 3,
+          }
+        );
 
+        setCityCenter(offer.city.name);
+      }
+
+      const markers = offers.map((of) =>
+        new Marker({
+          lat: of.location.latitude,
+          lng: of.location.longitude,
+        }, {
+          icon: of.id === activeOfferId ? currentCustomIcon : defaultCustomIcon,
+        })
+      );
+
+      const markerLayer = new LayerGroup(markers);
+      markerLayer.addTo(map);
+
+      return () => {
+        map.removeLayer(markerLayer);
+      };
+    }
+  }, [activeOfferId, cityCenter, currentCustomIcon, defaultCustomIcon, map, offer.city.location.latitude, offer.city.location.longitude, offer.city.location.zoom, offer.city.name, offers]);
 
   return (
     <section

@@ -40,7 +40,7 @@ function App(): JSX.Element {
           path={'login'}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
+              authorizationStatus={authorizationStatus}
             >
               <LoginScreen />
             </PrivateRoute>
