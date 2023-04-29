@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import { cityChanger, activeSortOption, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setPersonalDataUser, loadComments, setActivOfferId, loadNerbyOffers, isDisableForm, isSuccessSendMessage} from './action';
+import { cityChanger, activeSortOption, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setPersonalDataUser, loadComments, setActivOfferId, loadNerbyOffers} from './action';
 import { CITIES, SORT_OPTIONS, AuthorizationStatus } from '../const';
 import { Offers } from '../types/offers';
 import { UserPersonalData } from '../types/user-personal-data';
@@ -27,8 +27,6 @@ type initialStateType = {
   comments: UserComments;
   activOfferId: number;
   nearbyOffers: Offers;
-  idDisabledForm: boolean;
-  isSuccessSendMessage: boolean;
 }
 
 const initialState: initialStateType = {
@@ -44,8 +42,6 @@ const initialState: initialStateType = {
   comments: [],
   activOfferId: 0,
   nearbyOffers: [],
-  idDisabledForm: false,
-  isSuccessSendMessage: false
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -88,14 +84,6 @@ const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(loadNerbyOffers, (state, action) => {
       state.nearbyOffers = action.payload;
-    });
-  builder
-    .addCase(isDisableForm, (state, action) => {
-      state.idDisabledForm = action.payload;
-    });
-  builder
-    .addCase(isSuccessSendMessage, (state, action) => {
-      state.isSuccessSendMessage = action.payload;
     });
 });
 

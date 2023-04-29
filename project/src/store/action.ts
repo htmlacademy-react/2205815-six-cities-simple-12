@@ -29,7 +29,3 @@ export const sebdNewComment = createAction<UserComment>('sebdNewComment');
 export const setActivOfferId = createAction<number>('setActivOfferId');
 
 export const loadOfferById = createAction<Offer>('loadOfferById');
-
-export const isDisableForm = createAction<boolean>('isDisableForm');
-
-export const isSuccessSendMessage = createAction<boolean>('isSuccessSendMessage');

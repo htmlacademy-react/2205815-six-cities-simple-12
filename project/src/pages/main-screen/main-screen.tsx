@@ -7,7 +7,6 @@ import { useAppSelector } from '../../hooks';
 import SortOptionList from '../../components/sort-options-list/sort-option-list';
 import UserAuthCard from '../../components/user-auth-card/user-auth-card';
 import NoOffersList from '../../components/no-offers-list';
-import { Link } from 'react-router-dom';
 
 type MainScreenProps = {
   offers: Offers;
@@ -33,10 +32,7 @@ function MainScreen({offers, sortOptions}: MainScreenProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a
-                onClick={() => <Link to='/'/>}
-                className="header__logo-link header__logo-link--active"
-              >
+              <a className="header__logo-link header__logo-link--active">
                 <img className="header__logo" src="img/logo.svg" alt="six cities logo" width="81" height="41" />
               </a>
             </div>
