@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../types/state';
 import { Offer, Offers } from '../types/offers';
-import { loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setPersonalDataUser, redirectToRoute, loadComments, loadNerbyOffers, loadOfferById } from './action';
+import { loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setPersonalDataUser, redirectToRoute, loadComments, loadNerbyOffers, loadOfferById, isDisableForm, isSuccessSendMessage } from './action';
 import { AuthorizationStatus, TIMEOUT_SHOW_ERROR, emptyPersonalData } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
@@ -100,8 +100,16 @@ export const sendCommentAction = createAsyncThunk<void, Review, {
   }>(
     'comments/sendComment',
     async ({comment, rating, id}, {dispatch, extra: api}) => {
-      const {data} = await api.post<UserComments>(`/comments/${id}`, {comment, rating});
-      dispatch(loadComments(data));
+      dispatch(isDisableForm(true));
+      try {
+        const {data} = await api.post<UserComments>(`/comments/${id}`, {comment, rating});
+        dispatch(loadComments(data));
+        dispatch(isDisableForm(false));
+        dispatch(isSuccessSendMessage(true));
+      } catch {
+        dispatch(isDisableForm(false));
+        dispatch(isSuccessSendMessage(false));
+      }
     },
   );
 

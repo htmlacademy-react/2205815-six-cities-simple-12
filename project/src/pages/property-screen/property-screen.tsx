@@ -12,6 +12,7 @@ import OfferList from '../../components/offer-list/offer-list';
 import UserAuthCard from '../../components/user-auth-card/user-auth-card';
 import { fetchCommentsAction, fetchNearbyOffersAction } from '../../store/api-actions';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 
 type PropertyScreenProps = {
@@ -41,7 +42,10 @@ function PropertyScreen({offer}: PropertyScreenProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+              <a
+                onClick={() => <Link to='/'/>}
+                className="header__logo-link" href="#"
+              >
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
             </div>
