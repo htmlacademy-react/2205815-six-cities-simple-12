@@ -11,8 +11,8 @@ function PrivateRoute(props: PrivateRouteProps): JSX.Element {
 
   return (
     authorizationStatus === AuthorizationStatus.Auth
-      ? <Navigate to={'/'} />
-      : children
+      ? children
+      : <Navigate to={'/'} />
   );
 }
 
