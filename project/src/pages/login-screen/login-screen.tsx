@@ -2,6 +2,7 @@ import {useRef, FormEvent} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
 import {AuthData} from '../../types/auth-data';
+import { Link } from 'react-router-dom';
 
 
 function LoginScreen(): JSX.Element {
@@ -44,7 +45,10 @@ function LoginScreen(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+              <a
+                onClick={() => <Link to='/'/>}
+                className="header__logo-link" href="#"
+              >
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
             </div>
