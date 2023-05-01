@@ -4,11 +4,13 @@ import { sendCommentAction } from '../../store/api-actions';
 import { Review } from '../../types/reviews';
 import { isSuccessSendMessage } from '../../store/action';
 
-function CommentSubmitForm(): JSX.Element {
+type CommentSubmitFormProps = {
+  id: number;
+}
 
+function CommentSubmitForm({id}: CommentSubmitFormProps): JSX.Element {
   const [review, setReview] = useState({comment: '', rating: 0});
   const dispatch = useAppDispatch();
-  const id = useAppSelector((state) => state.activOfferId);
   const blockForm = useAppSelector((state) => state.idDisabledForm);
   const successSend = useAppSelector((state) => state.isSuccessSendMessage);
   const formRef = useRef<HTMLFormElement | null>(null);

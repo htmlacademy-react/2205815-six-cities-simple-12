@@ -73,7 +73,7 @@ function PropertyScreen({offer}: PropertyScreenProps): JSX.Element {
                 {sortedOffers
                   .map((comment) => <PropertyReviews comment={comment} key={comment.id} />)}
               </ul>
-              {authStatus === 'AUTH' ? <CommentSubmitForm /> : ''};
+              {authStatus === 'AUTH' ? <CommentSubmitForm id={offer.id} /> : ''};
             </section>
           </div>
         </div>
